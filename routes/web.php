@@ -74,13 +74,18 @@ Route::middleware([
         });
     });
 
-    Route::get('/anime', function() {
-        $animeListItems = AnimeListItem::select('*')
-            ->where('user_id', auth()->user()->id)
-            ->with('anime', fn($q)=> $q->with('genres'))
-            ->get();
-    
-        return view('anime', compact('animeListItems'));
+    Route::prefix('/anime')->group(function() {
+        Route::get('/', function() {
+            $animeListItems = AnimeListItem::select('*')
+                ->where('user_id', auth()->user()->id)
+                ->with('anime', fn($q)=> $q->with('genres'))
+                ->get();
+        
+            return view('anime', compact('animeListItems'));
+        })->name('anime.index');
+        Route::get('/{slug}', function(Request $request) {
+            dd($request->slug);
+        })->name('anime.show');
     });
 
     Route::prefix('/api/v1')->group(function () {
