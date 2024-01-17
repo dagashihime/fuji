@@ -75,9 +75,12 @@ Route::middleware([
     });
 
     Route::get('/anime', function() {
-        $animeList = auth()->user()
-            ->anime_list_items;
-        dd($animeList);
+        $animeListItems = AnimeListItem::select('*')
+            ->where('user_id', auth()->user()->id)
+            ->with('anime', fn($q)=> $q->with('genres'))
+            ->get();
+    
+        return view('anime', compact('animeListItems'));
     });
 
     Route::prefix('/api/v1')->group(function () {
