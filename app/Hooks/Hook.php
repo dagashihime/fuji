@@ -19,6 +19,10 @@ class Hook
             CURLOPT_HEADER => 1
         ]);
 
+        if(app()->isLocal()) {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        }
+
         if($post) {
             curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
@@ -29,7 +33,6 @@ class Hook
                 CURLOPT_HTTPHEADER => ['Content-Type: application/json' , "Authorization: Bearer $bearer"],
             ]);
         }
-
 
         $response = curl_exec($curl);
 

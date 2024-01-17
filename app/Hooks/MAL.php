@@ -16,7 +16,7 @@ class MAL extends Hook
             "client_secret" => env('MAL_CLIENT_SECRET'),
             "grant_type" => 'authorization_code',
             "code" => $code,
-            "redirect_uri" => route('api.mal.auth'),
+            "redirect_uri" => route('connections.mal.sync'),
             "code_verifier" => session()->get('codeVerifier')
         ])->map(fn ($value, $key) => "$key=$value")->implode('&');
 
