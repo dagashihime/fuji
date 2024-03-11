@@ -26,7 +26,7 @@ Route::middleware([
 ])->group(function () {
     Route::prefix('/anime')->group(function() {
         Route::get('/', [AnimeController::class, 'index'])->name('anime.index');
-        Route::get('/{slug}', [AnimeController::class, 'show'])->name('anime.show');
+        Route::get('/{id}', [AnimeController::class, 'show'])->name('anime.show');
     });
 
     Route::get('/dashboard', function () {

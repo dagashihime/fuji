@@ -1,18 +1,12 @@
 <x-app-layout>
     <div class="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4">
         @foreach($animeListItems as $item) 
-            <a href="{{ route('anime.show', [ 'slug'=> \App\Services\RouteService::parseTitleSlug($item['anime']['title']) ]) }}" class="group relative flex flex-col hover:scale-105 shadow-sm rounded-lg overflow-hidden">
+            <a href="{{ route('anime.show', [ 'id'=> $item['anime']['id'] ]) }}" class="group relative flex flex-col hover:scale-105 shadow-sm rounded-lg overflow-hidden">
                 <div class="z-20 absolute inset-0 hidden group-hover:flex flex-col justify-between">
                     <span class="p-2 bg-slate-500 text-white bg-opacity-70">
                         <strong>{{ $item['anime']['title'] }}</strong>
                     </span>
-                    <span class="px-1 py-3 flex flex-wrap gap-1">
-                        @foreach ($item['anime']['genres'] as $genre)
-                            <span class="px-1 bg-blue-300 rounded-full text-xs">
-                                {{ $genre['title'] }}
-                            </span>
-                        @endforeach
-                    </span>
+                    <x-list.genre-wrapper :genres="$item['anime']['genres']" />
                 </div>
                 <img src="{{ $item['anime']['main_picture'] }}" loading="lazy" class="z-10 aspect-[7/10] object-cover rounded-b-lg">
                 @php
